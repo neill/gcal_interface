@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  summary: MyString
+  description: MyString
+  location: MyString
+  start: 2015-01-11 15:50:54
+  end: 2015-01-11 15:50:54
+  owner: 1
+
+two:
+  summary: MyString
+  description: MyString
+  location: MyString
+  start: 2015-01-11 15:50:54
+  end: 2015-01-11 15:50:54
+  owner: 1

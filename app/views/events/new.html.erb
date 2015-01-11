@@ -1,0 +1,15 @@
+<%= form_for(@g_event) do |f| %>
+    <h1>Event title:</h1>
+    <%= f.text_field :summary %><br>
+    <h1>Event Description:</h1>
+    <%= f.text_field :description %><br>
+    <h1>Location:</h1>
+    <%= f.text_field :location %><br>
+    <h1>Attendees (Separate with a comma):</h1>
+    <%= f.text_field :attendees %>
+    <h1>Start Time:</h1>
+    <%= f.text_field :start %><br>
+    <h1>End Time:</h1>
+    <%= f.text_field :end %><br>
+    <%= f.submit, 'Add Event' %>
+<% end %>
