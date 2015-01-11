@@ -31,4 +31,15 @@ class User < ActiveRecord::Base
             end
         #end
     end
+
+    def self.exchange_refresh_token( refresh_token )
+      client = Google::APIClient.new
+      client.authorization.client_id = ENV['CONSUMER_KEY']
+      client.authorization.client_secret = ENV['CONSUMER_SECRET']
+      client.authorization.grant_type = 'refresh_token'
+      client.authorization.refresh_token = refresh_token
+
+      client.authorization.fetch_access_token!
+      client.authorization
+    end
 end

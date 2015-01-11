@@ -1,1 +1,6 @@
-<%= @events %>
+<%= link_to "Create a new event!", new_event_path %><br>
+<%= link_to "Logout", destroy_user_session_path, method: :delete %><br><br>
+
+<% @events.each do |x| %>
+<%= x.summary %> <strong>by</strong> <%= x.owner %><br>
+<% end %>

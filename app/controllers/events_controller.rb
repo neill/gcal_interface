@@ -12,34 +12,41 @@ class EventsController < ApplicationController
 
     def new
         @event = Event.new
-        @g_event = Event.new
     end
 
     def create
-        @event = Event.new
-        @g_event = Event.new
-        @g_event = {
-            'summary' => @g_event.summary,
-            'description' => @g_event.description,
-            'location' => @g_event.location,
-            'start' => @g_event.start,
-            'end' => @g_event.end,
-            'attendees' => @g_event.attendees.to_s.split(',').collect(&:strip)
-        }
+        @event = Event.new(event_params)
 
+        if @event.save
+            send_json
+            redirect_to events_path
+        else
+            redirect_to root
+        end
+    end
+
+    private
+    def send_json
+
+        @g_event = {
+            'summary' => @event.summary,
+            'description' => @event.description,
+            'location' => @event.location,
+            'start' => @event.start,
+            'end' => @event.end,
+            'attendees' => @event.attendees.to_s.split(',').collect(&:strip)
+        }
         client = Google::APIClient.new
         client.authorization.access_token = current_user.token
         service = client.discovered_api('calendar', 'v3')
 
         @set_event = client.execute(:api_method => service.events.insert,
-                :parameters => {'calendarId' => current_user.email, 'sendNotifications' => true},
-                :body => JSON.dump(@g_event),
-                :headers => {'Content-Type' => 'application/json'})
+        :parameters => {'calendarId' => current_user.email, 'sendNotifications' => true},
+        :body => JSON.dump(@g_event),
+        :headers => {'Content-Type' => 'application/json'})
+    end
 
-        if @event.save
-            redirect_to events_path
-        else
-            redirect_to root
-        end
+    def event_params
+        params.require(:event).permit(:summary, :description, :location, :start, :end, :attendees).merge(:owner => current_user.id)
     end
 end

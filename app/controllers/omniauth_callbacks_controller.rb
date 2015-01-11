@@ -9,4 +9,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
             redirect_to new_user_session_path, notice: 'Access Denied'
         end
     end
+
+
 end
