@@ -4,6 +4,7 @@ Mobiquity Coding Challenge
 Using Devise for authentication and Google's Calendar API.
 
 Steps for setting up:
+
 1. Run bundle install.
 
 2. Run rake db:migrate.
@@ -18,6 +19,9 @@ Steps for setting up:
 ENV["CONSUMER_KEY"] = Google OAuth client ID
 ENV["CONSUMER_SECRET"] = Google OAuth client secret.
 
-4.5 Run "source ~/.bashrc" in the terminal to load the environment variables.
+5. Run "source ~/.bashrc" in the terminal to load the environment variables.
 
-Todo: Fix request tokens so they last more than one hour.
+Todo
+====
+* Fix request tokens so they last more than one hour.
+* Allow attendees to be populated instead of hard-coded to current user.
