@@ -40,10 +40,14 @@ class EventsController < ApplicationController
         client.authorization.access_token = current_user.token
         service = client.discovered_api('calendar', 'v3')
 
-        @set_event = client.execute(:api_method => service.events.insert,
-        :parameters => {'calendarId' => current_user.email, 'sendNotifications' => true},
-        :body => JSON.dump(@g_event),
-        :headers => {'Content-Type' => 'application/json'})
+        client.execute(
+            :api_method => service.events.insert,
+            :parameters => {'calendarId' => current_user.email, 'sendNotifications' => true},
+            #:body => JSON.dump(@g_event),
+            :body => @g_event.to_query,
+            :headers => {'Content-Type' => 'application/json'})
+
+        puts @set_event
     end
 
     def event_params

@@ -4,6 +4,8 @@ gem 'devise'
 gem 'google-api-client', require: 'google/api_client'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
+gem 'httparty'
+gem 'json'
 # Activerecord fix
 gem 'arel', '6.0.0.beta2'
 
