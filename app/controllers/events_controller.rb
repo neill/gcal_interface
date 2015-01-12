@@ -3,7 +3,16 @@ class EventsController < ApplicationController
 
     def index
         @events = Event.all
+        if user_signed_in?
+            client = Google::APIClient.new
+            client.authorization.access_token = current_user.token
+            service = client.discovered_api('calendar', 'v3')
 
+            @list_events = client.execute(
+                :api_method => service.events.list,
+                :parameters => {'calendarId' => current_user.email},
+            ).data
+        end
     end
 
     def show
@@ -28,26 +37,35 @@ class EventsController < ApplicationController
     private
     def send_json
 
-        @g_event = {
+        start_rfc = @event.start
+        end_rfc = @event.end
+
+        g_event = {
             'summary' => @event.summary,
             'description' => @event.description,
             'location' => @event.location,
-            'start' => @event.start,
-            'end' => @event.end,
-            'attendees' => @event.attendees.to_s.split(',').collect(&:strip)
+            'start' => {
+                'dateTime' => @event.start.to_datetime.rfc3339
+            },
+            'end' => {
+                'dateTime' => @event.end.to_datetime.rfc3339
+            },
+            'attendees' => [{
+                'email' => current_user.email
+            }]
+                #@event.attendees.to_s.split(',').collect(&:strip)
         }
+
         client = Google::APIClient.new
         client.authorization.access_token = current_user.token
         service = client.discovered_api('calendar', 'v3')
 
         client.execute(
             :api_method => service.events.insert,
-            :parameters => {'calendarId' => current_user.email, 'sendNotifications' => true},
-            #:body => JSON.dump(@g_event),
-            :body => @g_event.to_query,
+            :parameters => {'calendarId' => current_user.email },
+            :body => JSON.dump(g_event),
             :headers => {'Content-Type' => 'application/json'})
 
-        puts @set_event
     end
 
     def event_params
