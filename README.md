@@ -21,6 +21,9 @@ ENV["CONSUMER_SECRET"] = Google OAuth client secret.
 
 5. Run "source ~/.bashrc" in the terminal to load the environment variables.
 
+  Everything should work from here. You should not sign in with a user profile but instead only sign in with Google Authentication.
+  This will automatically create a user profile for you using the information provided from your google account.
+
 Todo
 ====
 * Fix request tokens so they last more than one hour.

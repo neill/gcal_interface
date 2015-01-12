@@ -1,8 +1,9 @@
 class EventsController < ApplicationController
-    before_action :authenticate_user!, only: [:new, :create]
+    before_action :authenticate_user!, only: [:new, :create, :index]
 
     def index
         @events = Event.all
+        # This statement will provide a list of calendar events for the user.
         if user_signed_in?
             client = Google::APIClient.new
             client.authorization.access_token = current_user.token
@@ -30,30 +31,21 @@ class EventsController < ApplicationController
             send_json
             redirect_to events_path
         else
-            redirect_to root
+            redirect_to root_path
+            flash[:error] = "There was an error creating your event."
         end
     end
 
     private
     def send_json
-
-        start_rfc = @event.start
-        end_rfc = @event.end
-
         g_event = {
             'summary' => @event.summary,
             'description' => @event.description,
             'location' => @event.location,
-            'start' => {
-                'dateTime' => @event.start.to_datetime.rfc3339
-            },
-            'end' => {
-                'dateTime' => @event.end.to_datetime.rfc3339
-            },
-            'attendees' => [{
-                'email' => current_user.email
-            }]
-                #@event.attendees.to_s.split(',').collect(&:strip)
+            'start' => { 'dateTime' => @event.start.to_datetime.rfc3339 },
+            'end' => { 'dateTime' => @event.end.to_datetime.rfc3339 },
+            'attendees' => [{ 'email' => current_user.email }]
+            #@event.attendees.to_s.split(',').collect(&:strip)
         }
 
         client = Google::APIClient.new

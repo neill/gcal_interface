@@ -15,10 +15,10 @@
  */
 
 a.button {
+    clear: both;
     background-color: #3498db;
     color: #fff;
-    display: block;
-    float: left;
+    display: inline-block;
     font: normal 24px arial, sans-serif;
     height: 24px;
     margin: 2px;
