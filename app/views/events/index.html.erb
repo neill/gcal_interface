@@ -1,5 +1,7 @@
-<%= link_to "Create a new event!", new_event_path %><br>
+<%= link_to "New Event", new_event_path, class: 'button' %><br>
 <%= link_to "Logout", destroy_user_session_path, method: :delete %><br><br>
+
+<iframe src="https://www.google.com/calendar/embed?title=<%= current_user.email %>&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=<%= current_user.email %>&amp;color=%232952A3&amp;ctz=America%2FNew_York" style=" border-width:0 " width="800" height="600" frameborder="0" scrolling="no"></iframe>
 
 <% @events.each do |x| %>
 <%= x.summary %> <strong>by</strong> <%= x.owner %><br>
