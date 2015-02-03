@@ -1,5 +1,4 @@
-Mobiquity Coding Challenge
-====
+### Google Calendar API interfacing
 
 Using Devise for authentication and Google's Calendar API.
 
